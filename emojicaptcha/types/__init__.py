@@ -1,1 +1,1 @@
-from emojicaptcha.types.captcha import CaptchaImage
+from emojicaptcha.types.captcha import Captcha
