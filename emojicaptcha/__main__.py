@@ -45,7 +45,7 @@ class EmojiCaptcha:
             emojis.append(supported_emojis[i])
         captcha_answer = random.choice(emojis)
         captcha_image_path = os.path.join(
-            DATA_DIR, emojis_index.get(supported_emojis[i]) + ".png"
+            DATA_DIR, emojis_index.get(captcha_answer) + ".png"
         )
 
         img = Image.open(captcha_image_path).rotate(
