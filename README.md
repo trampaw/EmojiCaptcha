@@ -1,19 +1,19 @@
-# EmojiCaptcha
+# emojicaptcha
 
 # Installation
 ------------
 
-Install EmojiCaptcha with pip::
+Install emojicaptcha with pip::
 
-    $ pip install EmojiCaptcha
+    $ pip install emojicaptcha
 
 # Usage
 ------------
 
 ``` python
-from EmojiCaptcha import Captcha
+from emojicaptcha import EmojiCaptcha
 
-captcha = Captcha()
+captcha = EmojiCaptcha()
 """
     Optional **args
 
@@ -23,7 +23,7 @@ captcha = Captcha()
 
     ---------------------------------------------------------
 
-    Return type -----> dict
+    Return type -----> Captcha
     """
 #Generate captcha
 generated_captcha = captcha.generate()
@@ -32,7 +32,7 @@ generated_captcha = captcha.generate()
 print(generated_captcha)
 ```
 
-**EmojiCaptcha** is Fast, Easy python3 library to generate Emoji captcha.
+**emojicaptcha** is Fast, Easy python3 library to generate Emoji captcha.
 
 #### Credits
 - [Jigar Varma(me😉)](https://github.com/JigarVarma2005)
