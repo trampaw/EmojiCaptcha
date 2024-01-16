@@ -10,7 +10,7 @@ from PIL import Image
 from emojicaptcha.emojis import supported_emojis, emojis_files
 from emojicaptcha.types import Captcha
 
-DATA_DIR = os.path.join(os.path.abspath(os.path.dirname(__file__)), "img/")
+DATA_DIR = os.path.join(os.path.abspath(os.path.dirname(__file__)))
 try:
     os.mkdir("cache")
 except OSError:
@@ -27,7 +27,7 @@ class EmojiCaptcha:
 
         # self.file_name = file_name if file_name else str(uuid.uuid4().hex)
         self.background = (
-            background if background else os.path.join(DATA_DIR, "background.png")
+            background if background else os.path.join(DATA_DIR, "img/background.png")
         )
 
     def generate(self, variants_count: int | None = 6) -> Captcha:
@@ -40,7 +40,7 @@ class EmojiCaptcha:
 
         emojis = [random.choice(supported_emojis) for _ in range(variants_count)]
         answer = random.choice(emojis)
-        emoji = Image.open(os.path.join(emojis_files[answer]))
+        emoji = Image.open(os.path.join(DATA_DIR, emojis_files[answer]))
         background.paste(
             im=emoji,
             mask=emoji,
