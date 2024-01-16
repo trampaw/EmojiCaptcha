@@ -40,8 +40,7 @@ class EmojiCaptcha:
 
         emojis = [random.choice(supported_emojis) for _ in range(variants_count)]
         answer = random.choice(emojis)
-        emoji = Image.open(emojis_files[answer])
-        print(emoji.size)
+        emoji = Image.open(os.path.join(emojis_files[answer]))
         background.paste(
             im=emoji,
             mask=emoji,
