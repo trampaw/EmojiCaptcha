@@ -1,12 +1,9 @@
-import os
-from typing import List
+from io import BytesIO
 
 
 class Captcha:
-    def __init__(self, variants: List[str], answer: str, file_path: str) -> None:
-        self.variants = variants
-        self.answer = answer
-        self.file_path = file_path
 
-    def remove(self) -> None:
-        os.remove(self.file_path)
+    def __init__(self, image: BytesIO, emojis: list[str], answer: str) -> None:
+        self.image = image
+        self.emojis = emojis
+        self.answer = answer

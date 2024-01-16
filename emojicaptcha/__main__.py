@@ -3,15 +3,14 @@
 
 import os
 import random
-import uuid
-from typing import List
+from io import BytesIO
 
 from PIL import Image
 
-from emojicaptcha.emojis import emojis_index, supported_emojis
+from emojicaptcha.emojis import supported_emojis, emojis_files
 from emojicaptcha.types import Captcha
 
-DATA_DIR = os.path.join(os.path.abspath(os.path.dirname(__file__)), "emojis/img/")
+DATA_DIR = os.path.join(os.path.abspath(os.path.dirname(__file__)), "img/")
 try:
     os.mkdir("cache")
 except OSError:
@@ -19,43 +18,43 @@ except OSError:
 
 
 class EmojiCaptcha:
-    def __init__(self, file_name: str = None, background: str = None) -> None:
+    def __init__(self, background: str = None) -> None:
         """
         Optional **args
-
-        file_name[str]: custom file name for generating.
 
         background[str]: background image file path for captcha.
         """
 
-        self.file_name = file_name if file_name else str(uuid.uuid4().hex)
+        # self.file_name = file_name if file_name else str(uuid.uuid4().hex)
         self.background = (
             background if background else os.path.join(DATA_DIR, "background.png")
         )
 
-    def generate(self) -> Captcha:
+    def generate(self, variants_count: int | None = 6) -> Captcha:
         """
         Main function to Generate Captcha
         """
         background = Image.open(self.background)
-        emojis: List[str] = list()
-        r = random.random()
-        random.shuffle(supported_emojis, lambda: r)
-        for i in range(6):
-            emojis.append(supported_emojis[i])
-        captcha_answer = random.choice(emojis)
-        captcha_image_path = os.path.join(
-            DATA_DIR, emojis_index.get(captcha_answer) + ".png"
-        )
 
-        img = Image.open(captcha_image_path).rotate(
-            random.randint(0, 360), resample=Image.BICUBIC, expand=True
-        )
-        img.thumbnail((200, 200), Image.ANTIALIAS)
-        background.paste(img, (180, 160), img)
-        captcha_image_path = os.path.join("cache", f"{self.file_name}.png")
-        background.save(captcha_image_path, "PNG", quality=100)
+        image_obj = BytesIO()
 
-        return Captcha(
-            variants=emojis, answer=captcha_answer, file_path=captcha_image_path
+        emojis = [random.choice(supported_emojis) for _ in range(variants_count)]
+        answer = random.choice(emojis)
+        emoji = Image.open(emojis_files[answer])
+        print(emoji.size)
+        background.paste(
+            im=emoji,
+            mask=emoji,
+            box=(
+                background.size[0]//2 - emoji.size[0]//2,
+                background.size[1]//2 - emoji.size[1]//2
+            )
         )
+        background.save(image_obj, "PNG", quality=100)
+
+        return Captcha(image_obj, emojis, answer)
+
+
+if __name__ == "__main__":
+    captcha = EmojiCaptcha()
+    captcha.generate()
