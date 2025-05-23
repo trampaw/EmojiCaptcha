@@ -65,8 +65,8 @@ class EmojiCaptcha:
             data_dir=DATA_DIR  # Use the module-level DATA_DIR
         )
 
-    @classmethod
-    def get_captcha(cls, background_path: str | None = None, variants_count: int = 6) -> Captcha:
+    @staticmethod
+    def get_captcha(background_path: str | None = None, variants_count: int = 6) -> Captcha:
         """
         Generates a captcha without needing an instance of EmojiCaptcha.
 
@@ -80,7 +80,7 @@ class EmojiCaptcha:
         actual_background_path = (
             background_path if background_path else DEFAULT_BACKGROUND_PATH
         )
-        return cls._generate_captcha_image( # Use cls for classmethod call
+        return EmojiCaptcha._generate_captcha_image( # Use cls for classmethod call
             background_path=actual_background_path,
             variants_count=variants_count,
             data_dir=DATA_DIR, # DATA_DIR is module level
